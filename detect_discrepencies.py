@@ -24,8 +24,23 @@ def get_golang_result(domain):
 
 def write_distribution_results(bucket_totals):
     print("writing distribution results")
-    plt.plot(bucket_totals)
+    x = list(range(bucket_size))
+    plt.scatter(x, bucket_totals, label='domains in bucket', color='b', marker=".")
+
+    plt.xlabel('X-axis')
+    plt.ylabel('Y-axis')
+    plt.title('Distribution of domains in databases after crc32 hash being applied')
+    plt.legend()
     plt.show()
+
+def write_results_to_file(bucket_totals):
+    with open('logs/quantity_results.txt', 'w') as f:
+        for item in bucket_totals:
+            f.write("%s\n" % item)
+
+def write_discrepencies_log(message):
+    with open('logs/discrepencies_log.txt', 'a') as f:
+        f.write("%s\n" % message)
 
 with open("data/majestic_million.csv") as csv_file:
    for row in csv.reader(csv_file, delimiter=','):
@@ -37,8 +52,11 @@ with open("data/majestic_million.csv") as csv_file:
             total += 1
 
             if (python_crc32 != golang_crc32):
-                print ("crc32 discrepency on " + domain)
+                message = "crc32 discrepency on " + domain
             else:
-                print ("crc32 for domain: " + domain + " (" + str(total) + ") is the same")
+                message ="crc32 for domain: " + domain + " (" + str(total) + ") is the same"
+
+            write_discrepencies_log(message)
 
 write_distribution_results(bucket_totals)
+write_results_to_file(bucket_totals)
