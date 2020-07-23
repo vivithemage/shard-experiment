@@ -13,6 +13,7 @@ class md5Experiment {
           MessageDigest md = MessageDigest.getInstance("MD5");
           byte[] md5Digest = md.digest(bytesOfDomainName);
           BigInteger parameterInt = new BigInteger(1, md5Digest);
+          //System.out.println(parameterInt);
           BigInteger modulus = new BigInteger(Integer.toString(totalShards));
           BigInteger shard_id = parameterInt.mod(modulus);
           return shard_id.intValue();
@@ -26,6 +27,6 @@ class md5Experiment {
     }
 
     public static void main(String[] args) {
-        System.out.println("database id: " + getDatabaseID("example.com", 3));
+        System.out.println(getDatabaseID(args[0], 32));
     }
 }
