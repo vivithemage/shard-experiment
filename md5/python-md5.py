@@ -9,4 +9,4 @@ def md5Experiment(domain_name, total_shards):
   return shard_id
 
 argument = str.encode(sys.argv[1])
-print(str(md5Experiment(argument, 32)))
+print(str(md5Experiment(argument, 64)))

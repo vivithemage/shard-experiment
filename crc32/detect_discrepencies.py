@@ -6,7 +6,7 @@ import matplotlib
 import matplotlib.pyplot as plt
 import numpy as np
 
-bucket_size = 32
+bucket_size = 64
 total = 0
 bucket_totals = [0] * bucket_size
 

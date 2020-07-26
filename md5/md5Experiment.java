@@ -27,6 +27,6 @@ class md5Experiment {
     }
 
     public static void main(String[] args) {
-        System.out.println(getDatabaseID(args[0], 32));
+        System.out.println(getDatabaseID(args[0], 64));
     }
 }

@@ -15,7 +15,7 @@ func main() {
 	argument := os.Args[1]
 	crc32InUint32 := crc32.ChecksumIEEE([]byte(argument))
 
-	bucket_quantity = 32
+	bucket_quantity = 64
 	bucket_id = crc32InUint32 % bucket_quantity
 
 	fmt.Println(bucket_id)

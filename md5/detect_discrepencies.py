@@ -8,21 +8,21 @@ import numpy as np
 
 matplotlib.use('TkAgg')
 
-bucket_size = 32
+bucket_size = 64
 total = 0
 bucket_totals = [0] * bucket_size
 
 def get_python_result(domain):
     command = 'python python-md5.py ' + domain
-    domain_crc_result = os.popen(command).read()
-    domain_crc_result = domain_crc_result.strip()
-    return (domain_crc_result)
+    domain_hash_result = os.popen(command).read()
+    domain_hash_result = domain_hash_result.strip()
+    return (domain_hash_result)
 
 def get_golang_result(domain):
     command = 'java md5Experiment ' + domain
-    domain_crc_result = os.popen(command).read()
-    domain_crc_result = domain_crc_result.strip()
-    return (domain_crc_result)
+    domain_hash_result = os.popen(command).read()
+    domain_hash_result = domain_hash_result.strip()
+    return (domain_hash_result)
 
 def write_distribution_results(bucket_totals):
     print("writing distribution results")
@@ -31,7 +31,7 @@ def write_distribution_results(bucket_totals):
 
     plt.xlabel('X-axis')
     plt.ylabel('Y-axis')
-    plt.title('Distribution of domains in databases after crc32 hash being applied')
+    plt.title('Distribution of domains in databases after md5 hash being applied')
     plt.legend()
     plt.show()
 
@@ -47,16 +47,16 @@ def write_discrepencies_log(message):
 with open("data/majestic_million.csv") as csv_file:
    for row in csv.reader(csv_file, delimiter=','):
         for domain in row:
-            python_crc32 = get_python_result(domain)
-            golang_crc32 = get_python_result(domain)
+            python_md5 = get_python_result(domain)
+            golang_md5 = get_python_result(domain)
 
-            bucket_totals[int(golang_crc32)] += 1
+            bucket_totals[int(golang_md5)] += 1
             total += 1
 
-            if (python_crc32 != golang_crc32):
-                message = "crc32 discrepency on " + domain
+            if (python_md5 != golang_md5):
+                message = "md5 discrepency on " + domain
             else:
-                message ="crc32 for domain: " + domain + " (" + str(total) + ") is the same"
+                message ="md5 for domain: " + domain + " (" + str(total) + ") is the same"
 
             write_discrepencies_log(message)
 
